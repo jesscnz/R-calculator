@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>R-Based Risk Calculator</title>
   <style>
-    /* ... keep all your styles exactly as you had them ... */
+    /* Your original CSS unchanged */
+    /* Add all your styles here as before */
   </style>
 </head>
 <body>
@@ -16,59 +17,82 @@
   <main>
     <div class="card">
       <div class="tabs">
-        <div class="tab active" data-tab="calculator" onclick="openTab(this)">Calculator</div>
-        <div class="tab" data-tab="about" onclick="openTab(this)">About R Risk</div>
-        <div class="tab" data-tab="install" onclick="openTab(this)">Install</div>
+        <div class="tab active" data-tab="calculator">Calculator</div>
+        <div class="tab" data-tab="about">About R Risk</div>
+        <div class="tab" data-tab="install">Install</div>
       </div>
 
       <!-- Calculator Tab -->
       <div id="calculator" class="tab-content active">
-        <!-- ... calculator form content unchanged ... -->
-        <!-- use your original code here for the calculator inputs/buttons -->
+        <div class="form-group">
+          <label for="accountSize">Account Size ($)</label>
+          <input type="number" id="accountSize" value="100000">
+        </div>
+
+        <div class="form-group">
+          <label for="riskPercentage">Risk Percentage (%)</label>
+          <input type="number" id="riskPercentage" min="0.1" max="10" step="0.1" value="1">
+        </div>
+
+        <div class="form-group">
+          <label for="optionTrading">Trading Options?</label>
+          <select id="optionTrading">
+            <option value="no">No - Trading Shares</option>
+            <option value="yes">Yes - Trading Options</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="tradeType">Trade Type</label>
+          <select id="tradeType">
+            <option value="long">Long</option>
+            <option value="short">Short</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="entryPrice">Entry Price ($)</label>
+          <input type="number" id="entryPrice" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="stopLossPrice">Stop Loss Price ($)</label>
+          <input type="number" id="stopLossPrice" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="targetPrice">Target Price ($) (Optional)</label>
+          <input type="number" id="targetPrice" step="0.01">
+        </div>
+
+        <button id="calculateBtn">Calculate Risk</button>
+
+        <div id="resultCard" class="result-card">
+          <h3>Risk Analysis</h3>
+          <div class="result-line">
+            <span>Risk Unit (R):</span>
+            <span id="riskUnitResult">$1,000</span>
+          </div>
+          <div class="result-line">
+            <span>Stop Value:</span>
+            <span id="stopValueResult">$0.36</span>
+          </div>
+          <div class="result-line">
+            <span>Share Size:</span>
+            <span id="shareSizeResult">2,777 shares</span>
+          </div>
+          <div class="result-line">
+            <span>Total Position Value:</span>
+            <span id="positionValueResult">$219,000</span>
+          </div>
+          <div class="result-line" id="profitLine">
+            <span>Potential Profit:</span>
+            <span id="profitResult">$1,388 (1.39R)</span>
+          </div>
+        </div>
       </div>
 
       <!-- About Tab -->
       <div id="about" class="tab-content">
-        <!-- ... your about content unchanged ... -->
+        <!-- Your original about content here -->
       </div>
-
-      <!-- Install Tab -->
-      <div id="install" class="tab-content">
-        <!-- ... your install instructions unchanged ... -->
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    R-Based Risk Calculator &copy; 2025 | Based on Jeremy Newsome's trading approach
-  </footer>
-
-  <script>
-    // Tab switching with data-tab attributes
-    function openTab(tabElement) {
-      const tabName = tabElement.getAttribute("data-tab");
-
-      // Hide all content
-      document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-      // Remove active state
-      document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
-
-      // Show selected
-      document.getElementById(tabName).classList.add("active");
-      tabElement.classList.add("active");
-    }
-
-    // Your full calculateRisk() and supporting functions go below — unchanged
-    // Just paste your original JS here for:
-    // - calculateRisk()
-    // - formatCurrency()
-    // - saveToLocalStorage()
-    // - loadFromLocalStorage()
-    
-    // Load saved values on page load
-    window.onload = function () {
-      loadFromLocalStorage();
-    };
-  </script>
-</body>
-</html>
