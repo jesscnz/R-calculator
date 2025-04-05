@@ -3,275 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1e40af">
-    <meta name="description" content="R-Based Risk Calculator for trading">
     <title>R-Based Risk Calculator</title>
-    <!-- Self-contained manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUi1CYXNlZCBSaXNrIENhbGN1bGF0b3IiLCJzaG9ydF9uYW1lIjoiUiBDYWxjdWxhdG9yIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxZTQwYWYiLCJ0aGVtZV9jb2xvciI6IiMxZTQwYWYiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0Nzdmcgdmlld0JveD0nMCAwIDEwMCAxMDAnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyclM0UlM0NyZWN0IHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJyBmaWxsPSclMjMxZTQwYWYnIHJ4PScyMCcvJTNFJTNDdGV4dCB4PSc1MCcgeT0nNjAnIGZvbnQtc2l6ZT0nNTAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9J3doaXRlJyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC13ZWlnaHQ9J2JvbGQnJTNFUiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
-    <!-- Inline favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e40af'/><text x='50' y='60' font-size='50' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>R</text></svg>">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS custom properties for theme support */
-        :root {
-            /* Primary color scheme - deep blue */
-            --primary: #1e40af;
-            --primary-light: #3b82f6;
-            --primary-dark: #1e3a8a;
-            --primary-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            
-            /* Secondary color scheme - slate */
-            --secondary: #475569;
-            --secondary-light: #94a3b8;
-            --secondary-dark: #334155;
-            
-            /* Accent colors */
-            --accent: #f59e0b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f97316;
-            
-            /* Neutrals */
-            --light: #f8fafc;
-            --light-alt: #f1f5f9;
-            --dark: #0f172a;
-            --dark-alt: #1e293b;
-            
-            /* Effects */
-            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --card-border-radius: 1rem;
-            --btn-border-radius: 0.5rem;
-            
-            /* Dark mode support */
-            --card-bg: white;
-            --text-color: var(--dark);
-            --input-bg: white;
-            --input-border: #ddd;
-        }
-        
-        /* Dark theme overrides */
-        body.theme-dark {
-            --light: #121212;
-            --light-alt: #1f1f1f;
-            --card-bg: #1f1f1f;
-            --text-color: #e5e7eb;
-            --input-bg: #374151;
-            --input-border: #4b5563;
-            --secondary: #9ca3af;
-        }
-        
+        /* Basic styles */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
         
         body {
-            background-color: var(--light);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
             line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
         }
         
         header {
-            background: var(--primary-gradient);
+            background-color: #2563eb;
             color: white;
-            padding: 1.5rem 1rem;
+            padding: 1rem;
             text-align: center;
-            box-shadow: var(--box-shadow);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-        
-        header h1 {
-            font-size: 1.75rem;
-            margin-bottom: 0.25rem;
-            letter-spacing: 0.5px;
-        }
-        
-        header p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
         }
         
         main {
-            padding: 1.5rem 1rem;
-            flex: 1;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            width: 100%;
+            padding: 1rem;
         }
         
         .card {
-            background-color: var(--card-bg);
-            border-radius: var(--card-border-radius);
-            padding: 1.75rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--box-shadow);
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: background-color 0.3s;
-        }
-        
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.25rem;
-            color: var(--primary);
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        h2:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--primary-light);
-            border-radius: 1.5px;
-        }
-        
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--secondary-dark);
-        }
-        
-        input[type="number"],
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 0.875rem;
-            border: 1px solid var(--input-border);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s, color 0.3s;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-        }
-        
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-        
-        .btn {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 0.875rem 1.5rem;
-            border-radius: var(--btn-border-radius);
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            width: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--box-shadow-lg);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .result-card {
-            background-color: var(--card-bg);
-            border-radius: var(--card-border-radius);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 1.5rem;
-            margin-top: 1.5rem;
-            box-shadow: var(--box-shadow);
-            display: none;
-            border-left: 4px solid var(--primary);
-            transition: background-color 0.3s;
+            margin-bottom: 1rem;
         }
         
-        .result-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        h1, h2, h3 {
+            margin-bottom: 1rem;
         }
         
-        .result-line:last-child {
-            border-bottom: none;
-        }
-        
-        .result-label {
-            font-weight: 500;
-            color: var(--secondary-dark);
-        }
-        
-        .result-value {
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        /* Tabs */
         .tabs {
             display: flex;
             margin-bottom: 1.5rem;
-            border-radius: var(--btn-border-radius);
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #ddd;
         }
         
         .tab {
-            flex: 1;
-            text-align: center;
-            padding: 0.875rem 0.5rem;
-            background-color: rgba(241, 245, 249, 0.8);
+            padding: 0.75rem 1.5rem;
             cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
+            border-bottom: 2px solid transparent;
         }
         
         .tab.active {
-            background-color: var(--primary);
-            color: white;
-            font-weight: 600;
-        }
-        
-        .tab.active:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--accent);
+            font-weight: bold;
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
         }
         
         .tab-content {
@@ -280,182 +68,106 @@
         
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.5s;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .result-card {
+            display: none;
+            background-color: #f0f9ff;
+            border-left: 4px solid #2563eb;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .result-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .result-line:last-child {
+            border-bottom: none;
+        }
+        
+        .install-instructions {
+            background-color: #f0fff4;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 1rem 0;
         }
         
         .info-section {
-            background-color: rgba(30, 64, 175, 0.05);
-            border-left: 4px solid var(--primary);
-            padding: 1.25rem;
-            margin: 1.25rem 0;
-            border-radius: 0.5rem;
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
         }
         
         footer {
             text-align: center;
-            padding: 1.5rem 1rem;
-            background: var(--dark-alt);
+            padding: 1rem;
+            background-color: #1e3a8a;
             color: white;
-            font-size: 0.9rem;
-        }
-        
-        .help-text {
-            font-size: 0.8rem;
-            color: var(--secondary);
-            margin-top: 0.25rem;
-            font-style: italic;
-        }
-        
-        /* Installation instructions */
-        .install-instructions {
-            background-color: rgba(16, 185, 129, 0.05);
-            border-left: 4px solid var(--success);
-            padding: 1.25rem;
-            margin: 1.25rem 0;
-            border-radius: 0.5rem;
-        }
-        
-        .install-instructions h3 {
-            color: var(--success);
-            margin-bottom: 0.75rem;
-        }
-        
-        .install-instructions ul,
-        .install-instructions ol {
-            padding-left: 1.5rem;
-        }
-        
-        .install-instructions li {
-            margin-bottom: 0.75rem;
-        }
-        
-        /* Add share button */
-        .share-button {
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            border: none;
-            padding: 0.875rem 1.5rem;
-            border-radius: var(--btn-border-radius);
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 1.25rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        
-        .share-button:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--box-shadow-lg);
-        }
-        
-        .share-button:active {
-            transform: translateY(0);
-        }
-        
-        /* Theme selector */
-        .theme-selector {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1.5rem 0;
-            justify-content: center;
-        }
-        
-        .theme-option {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-            position: relative;
-        }
-        
-        .theme-option.active:after {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border: 2px solid var(--dark);
-            border-radius: 50%;
-        }
-        
-        .theme-option:hover {
-            transform: scale(1.1);
-        }
-        
-        /* Blue theme (default) */
-        .theme-blue {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-        }
-        
-        /* Green theme */
-        .theme-green {
-            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
-        }
-        
-        /* Purple theme */
-        .theme-purple {
-            background: linear-gradient(135deg, #6b21a8 0%, #a855f7 100%);
-        }
-        
-        /* Dark theme */
-        .theme-dark {
-            background: linear-gradient(135deg, #111827 0%, #374151 100%);
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            main {
-                padding: 1rem 0.75rem;
-            }
-            
-            .card {
-                padding: 1.25rem 1rem;
-                border-radius: 0.75rem;
-            }
-            
-            .btn, .share-button {
-                padding: 0.75rem 1rem;
-            }
+            margin-top: 2rem;
         }
     </style>
 </head>
-<body class="theme-blue">
+<body>
     <header>
         <h1>R-Based Risk Calculator</h1>
-        <p>Calculate optimal position size based on your risk tolerance</p>
     </header>
     
     <main>
         <div class="card">
             <div class="tabs">
-                <div class="tab active" data-tab="calculator">Calculator</div>
-                <div class="tab" data-tab="about">About R Risk</div>
-                <div class="tab" data-tab="install">Install</div>
+                <div class="tab active" onclick="openTab('calculator')">Calculator</div>
+                <div class="tab" onclick="openTab('about')">About R Risk</div>
+                <div class="tab" onclick="openTab('install')">Install</div>
             </div>
             
-            <div class="tab-content active" id="calculator">
+            <div id="calculator" class="tab-content active">
                 <div class="form-group">
                     <label for="accountSize">Account Size ($)</label>
-                    <input type="number" id="accountSize" placeholder="Enter your account size" value="100000">
-                    <div class="help-text">Your total trading account value</div>
+                    <input type="number" id="accountSize" value="100000">
                 </div>
                 
                 <div class="form-group">
                     <label for="riskPercentage">Risk Percentage (%)</label>
-                    <input type="number" id="riskPercentage" min="0.1" max="10" step="0.1" placeholder="Risk percentage per trade" value="1">
-                    <div class="help-text">Amount you're willing to risk per trade (recommended: 0.5-2%)</div>
+                    <input type="number" id="riskPercentage" min="0.1" max="10" step="0.1" value="1">
                 </div>
                 
                 <div class="form-group">
@@ -464,7 +176,6 @@
                         <option value="no">No - Trading Shares</option>
                         <option value="yes">Yes - Trading Options</option>
                     </select>
-                    <div class="help-text">Options trading calculates contracts (100 shares each)</div>
                 </div>
                 
                 <div class="form-group">
@@ -477,52 +188,52 @@
                 
                 <div class="form-group">
                     <label for="entryPrice">Entry Price ($)</label>
-                    <input type="number" id="entryPrice" step="0.01" placeholder="Your entry price">
+                    <input type="number" id="entryPrice" step="0.01">
                 </div>
                 
                 <div class="form-group">
                     <label for="stopLossPrice">Stop Loss Price ($)</label>
-                    <input type="number" id="stopLossPrice" step="0.01" placeholder="Your stop loss price">
+                    <input type="number" id="stopLossPrice" step="0.01">
                 </div>
                 
                 <div class="form-group">
                     <label for="targetPrice">Target Price ($) (Optional)</label>
-                    <input type="number" id="targetPrice" step="0.01" placeholder="Your profit target price">
+                    <input type="number" id="targetPrice" step="0.01">
                 </div>
                 
-                <button class="btn" id="calculateBtn">Calculate Risk</button>
+                <button onclick="calculateRisk()">Calculate Risk</button>
                 
-                <div class="result-card" id="resultCard">
-                    <h2>Risk Analysis</h2>
+                <div id="resultCard" class="result-card">
+                    <h3>Risk Analysis</h3>
                     
                     <div class="result-line">
-                        <span class="result-label">Risk Unit (R):</span>
-                        <span class="result-value" id="riskUnitResult">$1,000</span>
+                        <span>Risk Unit (R):</span>
+                        <span id="riskUnitResult">$1,000</span>
                     </div>
                     
                     <div class="result-line">
-                        <span class="result-label">Stop Value:</span>
-                        <span class="result-value" id="stopValueResult">$0.36</span>
+                        <span>Stop Value:</span>
+                        <span id="stopValueResult">$0.36</span>
                     </div>
                     
                     <div class="result-line">
-                        <span class="result-label">Share Size:</span>
-                        <span class="result-value" id="shareSizeResult">2,777 shares</span>
+                        <span>Share Size:</span>
+                        <span id="shareSizeResult">2,777 shares</span>
                     </div>
                     
                     <div class="result-line">
-                        <span class="result-label">Total Position Value:</span>
-                        <span class="result-value" id="positionValueResult">$219,000</span>
+                        <span>Total Position Value:</span>
+                        <span id="positionValueResult">$219,000</span>
                     </div>
                     
                     <div class="result-line" id="profitLine">
-                        <span class="result-label">Potential Profit:</span>
-                        <span class="result-value" id="profitResult">$1,388 (1.39R)</span>
+                        <span>Potential Profit:</span>
+                        <span id="profitResult">$1,388 (1.39R)</span>
                     </div>
                 </div>
             </div>
             
-            <div class="tab-content" id="about">
+            <div id="about" class="tab-content">
                 <h2>R-Based Risk Management</h2>
                 
                 <div class="info-section">
@@ -547,12 +258,12 @@
                 <p>This approach standardizes risk management and helps remove psychological bias from your trading by focusing on consistent risk units rather than fluctuating dollar amounts.</p>
             </div>
             
-            <div class="tab-content" id="install">
+            <div id="install" class="tab-content">
                 <h2>Install as App</h2>
                 
                 <div class="install-instructions">
                     <h3>For iPhone/iPad:</h3>
-                    <ol>
+                    <ol style="padding-left: 1.5rem; margin: 1rem 0;">
                         <li>Open this page in Safari</li>
                         <li>Tap the Share button (square with arrow)</li>
                         <li>Scroll down and select "Add to Home Screen"</li>
@@ -560,7 +271,7 @@
                     </ol>
                     
                     <h3>For Android:</h3>
-                    <ol>
+                    <ol style="padding-left: 1.5rem; margin: 1rem 0;">
                         <li>Open this page in Chrome</li>
                         <li>Tap the three dots menu (⋮)</li>
                         <li>Select "Add to Home screen"</li>
@@ -569,21 +280,9 @@
                 </div>
                 
                 <p>Once installed, the app will appear on your home screen for easy access!</p>
-                <p class="help-text">Note: Offline functionality may not be available in all environments.</p>
-                
-                <h3 style="margin-top: 1.5rem;">Choose Theme</h3>
-                <p>Select a color theme for the calculator:</p>
-                
-                <div class="theme-selector">
-                    <div class="theme-option theme-blue active" data-theme="blue"></div>
-                    <div class="theme-option theme-green" data-theme="green"></div>
-                    <div class="theme-option theme-purple" data-theme="purple"></div>
-                    <div class="theme-option theme-dark" data-theme="dark"></div>
-                </div>
                 
                 <h3 style="margin-top: 1.5rem;">Share This Calculator</h3>
-                <p>You can share this calculator with others:</p>
-                <button class="share-button" id="shareBtn">Share Calculator</button>
+                <p>Copy and share the URL of this page with others who might find it useful.</p>
             </div>
         </div>
     </main>
@@ -594,59 +293,40 @@
     
     <script>
         // Tab functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab).classList.add('active');
-            });
-        });
-        
-        // Theme switcher
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.addEventListener('click', () => {
-                const theme = option.dataset.theme;
-                
-                // Remove all theme classes from body
-                document.body.classList.remove('theme-blue', 'theme-green', 'theme-purple', 'theme-dark');
-                
-                // Add selected theme class
-                document.body.classList.add(`theme-${theme}`);
-                
-                // Update theme-color meta tag
-                const themeColors = {
-                    'blue': '#1e40af',
-                    'green': '#065f46',
-                    'purple': '#6b21a8',
-                    'dark': '#111827'
-                };
-                document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColors[theme]);
-                
-                // Update active state
-                document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('active'));
-                option.classList.add('active');
-                
-                // Save theme preference
-                localStorage.setItem('rCalculatorTheme', theme);
-            });
-        });
+        function openTab(tabName) {
+            // Hide all tab content
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tabs
+            var tabs = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            // Show the selected tab content
+            document.getElementById(tabName).classList.add("active");
+            
+            // Find and activate the clicked tab
+            var tabElements = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabElements.length; i++) {
+                if (tabElements[i].textContent.toLowerCase().includes(tabName)) {
+                    tabElements[i].classList.add("active");
+                }
+            }
+        }
         
         // Risk calculation
-        const calculateBtn = document.getElementById('calculateBtn');
-        calculateBtn.addEventListener('click', calculateRisk);
-        
         function calculateRisk() {
             // Get inputs
-            const accountSize = parseFloat(document.getElementById('accountSize').value) || 100000;
-            const riskPercentage = parseFloat(document.getElementById('riskPercentage').value) || 1;
-            const tradeType = document.getElementById('tradeType').value;
-            const entryPrice = parseFloat(document.getElementById('entryPrice').value);
-            const stopLossPrice = parseFloat(document.getElementById('stopLossPrice').value);
-            const targetPrice = parseFloat(document.getElementById('targetPrice').value);
+            var accountSize = parseFloat(document.getElementById('accountSize').value) || 100000;
+            var riskPercentage = parseFloat(document.getElementById('riskPercentage').value) || 1;
+            var tradeType = document.getElementById('tradeType').value;
+            var entryPrice = parseFloat(document.getElementById('entryPrice').value);
+            var stopLossPrice = parseFloat(document.getElementById('stopLossPrice').value);
+            var targetPrice = parseFloat(document.getElementById('targetPrice').value);
             
             // Validate inputs
             if (!entryPrice || !stopLossPrice) {
@@ -655,10 +335,10 @@
             }
             
             // Calculate risk unit (R)
-            const riskUnit = accountSize * (riskPercentage / 100);
+            var riskUnit = accountSize * (riskPercentage / 100);
             
             // Calculate stop value (difference between entry and stop loss)
-            let stopValue;
+            var stopValue;
             if (tradeType === 'long') {
                 stopValue = entryPrice - stopLossPrice;
                 if (stopValue <= 0) {
@@ -674,16 +354,16 @@
             }
             
             // Calculate share size
-            const shareSize = Math.floor(riskUnit / stopValue);
+            var shareSize = Math.floor(riskUnit / stopValue);
             
             // Handle options trading if selected
-            let optionContracts = 0;
-            let displayShareSize = shareSize;
+            var optionContracts = 0;
+            var displayShareSize = shareSize;
             
             if (document.getElementById('optionTrading').value === 'yes') {
                 optionContracts = Math.floor(shareSize / 100);
-                // Handle partial contracts (as discussed in the article)
-                const partialShares = shareSize % 100;
+                // Handle partial contracts
+                var partialShares = shareSize % 100;
                 if (partialShares > 70) { // If over 70% of a contract, round up
                     optionContracts += 1;
                 }
@@ -691,10 +371,10 @@
             }
             
             // Calculate total position value
-            const positionValue = displayShareSize * entryPrice;
+            var positionValue = displayShareSize * entryPrice;
             
             // Calculate potential profit if target price is provided
-            let profit, rMultiple;
+            var profit, rMultiple;
             if (targetPrice) {
                 if (tradeType === 'long') {
                     profit = displayShareSize * (targetPrice - entryPrice);
@@ -725,7 +405,7 @@
             document.getElementById('positionValueResult').textContent = formatCurrency(positionValue);
             
             if (targetPrice) {
-                document.getElementById('profitResult').textContent = `${formatCurrency(profit)} (${rMultiple.toFixed(2)}R)`;
+                document.getElementById('profitResult').textContent = formatCurrency(profit) + ' (' + rMultiple.toFixed(2) + 'R)';
                 document.getElementById('profitLine').style.display = 'flex';
             } else {
                 document.getElementById('profitLine').style.display = 'none';
@@ -735,25 +415,22 @@
             document.getElementById('resultCard').style.display = 'block';
             
             // Save to localStorage
-            saveCalculationToStorage();
-            
-            // Smooth scroll to results
-            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            saveToLocalStorage();
         }
         
-        function formatCurrency(value, isPrice = false) {
+        function formatCurrency(value, isPrice) {
             if (isPrice) {
-                return ' + value.toFixed(2);
+                return '$' + value.toFixed(2);
             }
             
-            return ' + value.toLocaleString(undefined, {
+            return '$' + value.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             });
         }
         
-        // Save calculation to localStorage
-        function saveCalculationToStorage() {
+        // Save to localStorage
+        function saveToLocalStorage() {
             try {
                 const formData = {
                     accountSize: document.getElementById('accountSize').value,
@@ -767,12 +444,12 @@
                 
                 localStorage.setItem('rCalculatorData', JSON.stringify(formData));
             } catch (e) {
-                console.log('Could not save to localStorage:', e);
+                console.log('Could not save to localStorage');
             }
         }
         
-        // Load calculation from localStorage
-        function loadCalculationFromStorage() {
+        // Load from localStorage
+        function loadFromLocalStorage() {
             try {
                 const savedData = localStorage.getItem('rCalculatorData');
                 if (savedData) {
@@ -787,99 +464,15 @@
                     document.getElementById('stopLossPrice').value = formData.stopLossPrice || '';
                     document.getElementById('targetPrice').value = formData.targetPrice || '';
                 }
-                
-                // Load saved theme
-                const savedTheme = localStorage.getItem('rCalculatorTheme');
-                if (savedTheme) {
-                    // Apply saved theme
-                    document.body.classList.remove('theme-blue', 'theme-green', 'theme-purple', 'theme-dark');
-                    document.body.classList.add(`theme-${savedTheme}`);
-                    
-                    // Update theme-color meta tag
-                    const themeColors = {
-                        'blue': '#1e40af',
-                        'green': '#065f46',
-                        'purple': '#6b21a8',
-                        'dark': '#111827'
-                    };
-                    document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColors[savedTheme]);
-                    
-                    // Update active state
-                    document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('active'));
-                    document.querySelector(`.theme-option.theme-${savedTheme}`).classList.add('active');
-                }
             } catch (e) {
-                console.log('Could not load from localStorage:', e);
+                console.log('Could not load from localStorage');
             }
         }
         
-        // Share functionality
-        document.getElementById('shareBtn').addEventListener('click', shareCalculator);
-        
-        function shareCalculator() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'R-Based Risk Calculator',
-                    text: 'Check out this trading risk calculator based on Jeremy Newsome\'s R method',
-                    url: window.location.href
-                })
-                .catch(error => {
-                    console.log('Share failed:', error);
-                    alert('Could not share. Try copying the URL manually.');
-                });
-            } else {
-                // Fallback for browsers that don't support sharing
-                prompt('Copy this link to share the calculator:', window.location.href);
-            }
-        }
-        
-        // Add CSS variables for each theme
-        function applyThemeStyles() {
-            const themes = {
-                'blue': {
-                    '--primary': '#1e40af',
-                    '--primary-light': '#3b82f6',
-                    '--primary-dark': '#1e3a8a',
-                    '--primary-gradient': 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)'
-                },
-                'green': {
-                    '--primary': '#065f46',
-                    '--primary-light': '#10b981',
-                    '--primary-dark': '#064e3b',
-                    '--primary-gradient': 'linear-gradient(135deg, #065f46 0%, #10b981 100%)'
-                },
-                'purple': {
-                    '--primary': '#6b21a8',
-                    '--primary-light': '#a855f7',
-                    '--primary-dark': '#581c87',
-                    '--primary-gradient': 'linear-gradient(135deg, #6b21a8 0%, #a855f7 100%)'
-                },
-                'dark': {
-                    '--primary': '#111827',
-                    '--primary-light': '#374151',
-                    '--primary-dark': '#0f172a',
-                    '--primary-gradient': 'linear-gradient(135deg, #111827 0%, #374151 100%)'
-                }
-            };
-            
-            const currentTheme = Array.from(document.body.classList)
-                .find(cls => cls.startsWith('theme-'))
-                ?.replace('theme-', '') || 'blue';
-            
-            // Apply the CSS variables
-            Object.entries(themes[currentTheme]).forEach(([prop, value]) => {
-                document.documentElement.style.setProperty(prop, value);
-            });
-        }
-        
-        // Listen for theme changes
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.addEventListener('click', applyThemeStyles);
-        });
-        
-        // Load saved data on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadCalculationFromStorage();
-            applyThemeStyles();
-        });
-        
+        // Load data when page loads
+        window.onload = function() {
+            loadFromLocalStorage();
+        };
+    </script>
+</body>
+</html>
