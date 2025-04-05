@@ -5,8 +5,144 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>R-Based Risk Calculator</title>
   <style>
-    /* Your original CSS unchanged */
-    /* Add all your styles here as before */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 1rem;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      font-weight: bold;
+      color: #2563eb;
+      border-bottom: 2px solid #2563eb;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .result-card {
+      display: none;
+      background-color: #f0f9ff;
+      border-left: 4px solid #2563eb;
+      padding: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .result-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .result-line:last-child {
+      border-bottom: none;
+    }
+
+    .install-instructions {
+      background-color: #f0fff4;
+      border-left: 4px solid #10b981;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .info-section {
+      background-color: #f0f9ff;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #1e3a8a;
+      color: white;
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -22,7 +158,6 @@
         <div class="tab" data-tab="install">Install</div>
       </div>
 
-      <!-- Calculator Tab -->
       <div id="calculator" class="tab-content active">
         <div class="form-group">
           <label for="accountSize">Account Size ($)</label>
@@ -92,7 +227,176 @@
         </div>
       </div>
 
-      <!-- About Tab -->
       <div id="about" class="tab-content">
-        <!-- Your original about content here -->
+        <h2>R-Based Risk Management</h2>
+        <div class="info-section">
+          <p>The R-based approach to trading focuses on risk management. Instead of thinking about returns in dollars or percentages, trades are measured in terms of "R units".</p>
+          <br>
+          <p>An R unit represents your predefined risk per trade, typically 0.5-2% of your total account.</p>
+        </div>
+
+        <h3>How It Works:</h3>
+        <ol style="padding-left: 1.5rem; margin: 1rem 0;">
+          <li><strong>Define your R unit</strong> - Usually 0.5-2% of your account (e.g., $1,000 on a $100,000 account)</li>
+          <li><strong>Calculate your stop value</strong> - The difference between entry and stop loss prices</li>
+          <li><strong>Determine position size</strong> - R unit divided by stop value gives you the number of shares</li>
+          <li><strong>For options:</strong> Convert shares to contracts (each contract = 100 shares)</li>
+          <li><strong>Measure returns in R multiples</strong> - A $2,000 gain on a $1,000 risk is a 2R return</li>
+        </ol>
+
+        <div class="info-section">
+          <p><em>"Instead of risking money, or trading money, you are breaking that emotional barrier by giving it a less cool name. It is no longer money that you are trading, just risk units."</em> - Jeremy Newsome</p>
+        </div>
+
+        <p>This approach standardizes risk management and helps remove psychological bias from your trading by focusing on consistent risk units rather than fluctuating dollar amounts.</p>
       </div>
+
+      <div id="install" class="tab-content">
+        <h2>Install as App</h2>
+        <div class="install-instructions">
+          <h3>For iPhone/iPad:</h3>
+          <ol style="padding-left: 1.5rem; margin: 1rem 0;">
+            <li>Open this page in Safari</li>
+            <li>Tap the Share button (square with arrow)</li>
+            <li>Scroll down and select "Add to Home Screen"</li>
+            <li>Name the app and tap "Add"</li>
+          </ol>
+          <h3>For Android:</h3>
+          <ol style="padding-left: 1.5rem; margin: 1rem 0;">
+            <li>Open this page in Chrome</li>
+            <li>Tap the three dots menu (⋮)</li>
+            <li>Select "Add to Home screen"</li>
+            <li>Name the app and tap "Add"</li>
+          </ol>
+        </div>
+        <p>Once installed, the app will appear on your home screen for easy access!</p>
+        <h3 style="margin-top: 1.5rem;">Share This Calculator</h3>
+        <p>Copy and share the URL of this page with others who might find it useful.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    R-Based Risk Calculator &copy; 2025 | Based on Jeremy Newsome's trading approach
+  </footer>
+
+  <script>
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    document.getElementById('calculateBtn').addEventListener('click', calculateRisk);
+
+    function calculateRisk() {
+      var accountSize = parseFloat(document.getElementById('accountSize').value) || 100000;
+      var riskPercentage = parseFloat(document.getElementById('riskPercentage').value) || 1;
+      var tradeType = document.getElementById('tradeType').value;
+      var entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      var stopLossPrice = parseFloat(document.getElementById('stopLossPrice').value);
+      var targetPrice = parseFloat(document.getElementById('targetPrice').value);
+
+      if (!entryPrice || !stopLossPrice) {
+        alert('Please enter both entry price and stop loss price');
+        return;
+      }
+
+      var riskUnit = accountSize * (riskPercentage / 100);
+      var stopValue = tradeType === 'long' ? entryPrice - stopLossPrice : stopLossPrice - entryPrice;
+      if (stopValue <= 0) {
+        alert('Check your entry and stop loss values for the trade type');
+        return;
+      }
+
+      var shareSize = Math.floor(riskUnit / stopValue);
+      var displayShareSize = shareSize;
+      var optionContracts = 0;
+
+      if (document.getElementById('optionTrading').value === 'yes') {
+        optionContracts = Math.floor(shareSize / 100);
+        if (shareSize % 100 > 70) optionContracts += 1;
+        displayShareSize = optionContracts * 100;
+      }
+
+      var positionValue = displayShareSize * entryPrice;
+      var profit, rMultiple;
+
+      if (targetPrice) {
+        profit = tradeType === 'long'
+          ? displayShareSize * (targetPrice - entryPrice)
+          : displayShareSize * (entryPrice - targetPrice);
+        if (profit <= 0) {
+          alert('Target price must make sense for trade type');
+          return;
+        }
+        rMultiple = profit / riskUnit;
+      }
+
+      document.getElementById('riskUnitResult').textContent = formatCurrency(riskUnit);
+      document.getElementById('stopValueResult').textContent = formatCurrency(stopValue, true);
+
+      document.getElementById('shareSizeResult').textContent =
+        document.getElementById('optionTrading').value === 'yes'
+          ? `${optionContracts.toLocaleString()} contracts (${displayShareSize.toLocaleString()} shares)`
+          : `${shareSize.toLocaleString()} shares`;
+
+      document.getElementById('positionValueResult').textContent = formatCurrency(positionValue);
+
+      if (targetPrice) {
+        document.getElementById('profitResult').textContent = formatCurrency(profit) + ' (' + rMultiple.toFixed(2) + 'R)';
+        document.getElementById('profitLine').style.display = 'flex';
+      } else {
+        document.getElementById('profitLine').style.display = 'none';
+      }
+
+      document.getElementById('resultCard').style.display = 'block';
+      saveToLocalStorage();
+    }
+
+    function formatCurrency(value, isPrice) {
+      return '$' + (isPrice ? value.toFixed(2) : value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    }
+
+    function saveToLocalStorage() {
+      try {
+        const formData = {
+          accountSize: document.getElementById('accountSize').value,
+          riskPercentage: document.getElementById('riskPercentage').value,
+          optionTrading: document.getElementById('optionTrading').value,
+          tradeType: document.getElementById('tradeType').value,
+          entryPrice: document.getElementById('entryPrice').value,
+          stopLossPrice: document.getElementById('stopLossPrice').value,
+          targetPrice: document.getElementById('targetPrice').value
+        };
+        localStorage.setItem('rCalculatorData', JSON.stringify(formData));
+      } catch (e) {
+        console.log('Could not save to localStorage');
+      }
+    }
+
+    function loadFromLocalStorage() {
+      try {
+        const savedData = localStorage.getItem('rCalculatorData');
+        if (savedData) {
+          const formData = JSON.parse(savedData);
+          document.getElementById('accountSize').value = formData.accountSize || '';
+          document.getElementById('riskPercentage').value = formData.riskPercentage || '';
+          document.getElementById('optionTrading').value = formData.optionTrading || 'no';
+          document.getElementById('tradeType').value = formData.tradeType || 'long';
+          document.getElementById('entryPrice').value = formData.entryPrice || '';
+          document.getElementById('stopLossPrice').value = formData.stopLossPrice || '';
+          document.getElementById('targetPrice').value = formData.targetPrice || '';
+        }
+      } catch (e) {
+        console.log('Could not load from localStorage');
+      }
+    }
+
+    window.onload = loadFromLocalStorage;
+  </script>
+</body>
+</html>
