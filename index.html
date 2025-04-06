@@ -4,224 +4,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R-Based Risk Calculator</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Import fonts directly in the HTML to ensure they load -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Color variables */
-        :root {
-            --primary: #1a3028;     /* Dark green main color */
-            --primary-light: #2c4a3e;
-            --primary-dark: #122018;
-            --accent: #d4af37;      /* Gold accent */
-            --accent-light: #e6c158;
-            --accent-dark: #b39429;
-            --light: #f5f5f5;
-            --light-alt: #e9e9e9;
-            --text: #333333;
-            --text-light: #666666;
-            --card-bg: white;
-        }
-        
-        /* Basic styles */
-        * {
+        /* Basic reset and variables */
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         
-        body {
-            background-color: var(--light);
-            color: var(--text);
-            line-height: 1.6;
-            font-family: 'Montserrat', sans-serif;
+        :root {
+            --primary: #1a3028;
+            --primary-light: #2c4a3e;
+            --primary-dark: #122018;
+            --accent: #d4af37;
+            --accent-light: #e6c158;
+            --accent-dark: #b39429;
+            --background: #f8f8f8;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
         
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
         header {
             background-color: var(--primary);
             color: white;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif; /* Similar to "The Youngest Serif" */
-            font-weight: 600;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
         }
         
         header h1 {
+            color: var(--accent);
+            text-align: center;
             font-size: 2rem;
             margin-bottom: 0.5rem;
-            color: var(--accent);
-            letter-spacing: 0.5px;
         }
         
         header p {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
+            text-align: center;
             opacity: 0.9;
+            font-size: 0.9rem;
         }
         
-        main {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
+        /* Card */
         .card {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             padding: 2rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
         }
         
-        h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-            font-size: 1.75rem;
-        }
-        
-        h2:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background-color: var(--accent);
-            border-radius: 2px;
-        }
-        
-        h3 {
-            color: var(--primary);
-            margin: 1.5rem 0 1rem;
-            font-size: 1.35rem;
-        }
-        
+        /* Tabs */
         .tabs {
             display: flex;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            flex-wrap: wrap; /* Added for mobile - allows tabs to wrap */
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
         }
         
         .tab {
-            padding: 0.75rem 1.5rem;
+            padding: 12px 20px;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s ease;
+            position: relative;
             font-weight: 500;
             color: var(--text-light);
-            -webkit-tap-highlight-color: transparent; /* Prevents iOS highlight */
-            user-select: none; /* No text selection */
-        }
-        
-        .tab:hover {
-            color: var(--primary);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
         
         .tab.active {
-            font-weight: 600;
             color: var(--primary);
-            border-bottom: 3px solid var(--accent);
+            font-weight: 600;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 2px 2px 0 0;
         }
         
         .tab-content {
             display: none;
-            animation: fadeIn 0.3s ease forwards;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .tab-content.active {
             display: block;
+            animation: fade-in 0.3s ease-in-out;
         }
         
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Form */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
         
         label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--primary);
-            font-size: 0.95rem;
         }
         
         input, select {
             width: 100%;
-            padding: 0.9rem 1rem;
-            border: 1px solid rgba(0,0,0,0.15);
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
             font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
             transition: border-color 0.2s, box-shadow 0.2s;
-            -webkit-appearance: none; /* Removes iOS default styling */
-            background-color: #fafafa;
+            -webkit-appearance: none;
         }
         
         input:focus, select:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
         }
         
-        /* Makes number inputs more touch-friendly */
+        /* Remove spinner from number inputs */
         input[type="number"] {
-            -moz-appearance: textfield; /* Firefox */
+            -moz-appearance: textfield;
         }
+        
         input[type="number"]::-webkit-inner-spin-button, 
         input[type="number"]::-webkit-outer-spin-button { 
             -webkit-appearance: none;
             margin: 0;
         }
         
+        /* Select styling */
         select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231a3028' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231a3028' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1rem;
-            padding-right: 2.5rem;
+            background-position: right 15px center;
+            padding-right: 40px;
         }
         
+        /* Button */
         button {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
+            padding: 14px 20px;
+            border-radius: var(--border-radius);
             font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
             width: 100%;
-            margin-top: 1.5rem;
+            box-shadow: var(--shadow);
             transition: background-color 0.2s, transform 0.1s;
-            -webkit-appearance: none; /* Removes iOS default styling */
-            -webkit-tap-highlight-color: transparent; /* Prevents iOS highlight */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
         }
         
-        button:after {
+        button::after {
             content: '';
             position: absolute;
-            top: -50%;
+            top: 0;
             left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(to bottom right, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(30deg);
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%) skewX(-15deg);
             transition: transform 0.5s;
         }
         
@@ -229,41 +212,47 @@
             background-color: var(--primary-dark);
         }
         
-        button:hover:after {
-            transform: translateX(100%) rotate(30deg);
+        button:hover::after {
+            transform: translateX(100%) skewX(-15deg);
         }
         
         button:active {
             transform: translateY(1px);
         }
         
+        /* Results */
         .result-card {
             display: none;
-            background-color: #fcfaf5;
+            background-color: #fcfcf7;
             border-left: 4px solid var(--accent);
             padding: 1.5rem;
-            margin-top: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            animation: slideIn 0.3s ease forwards;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-top: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
         
         .result-card h3 {
-            color: var(--primary);
-            margin-top: 0;
             margin-bottom: 1rem;
-            font-size: 1.4rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .result-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+            border-radius: 1px;
         }
         
         .result-line {
             display: flex;
             justify-content: space-between;
-            padding: 0.75rem 0;
+            padding: 10px 0;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         
@@ -271,103 +260,93 @@
             border-bottom: none;
         }
         
-        .result-line span:first-child {
+        .result-label {
             font-weight: 500;
             color: var(--text-light);
         }
         
-        .result-line span:last-child {
+        .result-value {
             font-weight: 700;
             color: var(--primary);
         }
         
-        #profitLine span:last-child {
+        #profitLine .result-value {
             color: var(--accent-dark);
         }
         
-        .install-instructions {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--accent);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 8px;
-        }
-        
-        .install-instructions h3 {
-            color: var(--primary);
-            margin-top: 0;
-            margin-bottom: 0.75rem;
-        }
-        
+        /* Other content */
         .info-section {
             background-color: #f8f9fa;
             border-left: 4px solid var(--accent);
             padding: 1.5rem;
             margin: 1.5rem 0;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
+        }
+        
+        .info-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .info-section p:last-child {
+            margin-bottom: 0;
         }
         
         .info-section em {
             color: var(--primary);
+            font-style: italic;
         }
         
+        ol, ul {
+            padding-left: 2rem;
+            margin: 1rem 0;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 1.5rem 1rem;
             background-color: var(--primary);
             color: rgba(255,255,255,0.8);
-            margin-top: 3rem;
+            padding: 1.5rem 0;
+            text-align: center;
             font-size: 0.9rem;
+            margin-top: 2rem;
         }
         
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        
-        /* Mobile-specific adjustments */
+        /* Mobile styles */
         @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem;
+            }
+            
             .tabs {
-                flex-direction: row;
-                width: 100%;
+                flex-wrap: wrap;
             }
             
             .tab {
                 flex: 1;
                 text-align: center;
-                padding: 0.75rem 0.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .card {
-                padding: 1.5rem 1rem;
-            }
-            
-            main {
-                margin: 1rem auto;
+                padding: 10px;
+                font-size: 14px;
             }
             
             input, select, button {
-                font-size: 16px; /* Prevents iOS zoom on focus */
-            }
-            
-            h2 {
-                font-size: 1.5rem;
-            }
-            
-            h3 {
-                font-size: 1.2rem;
+                font-size: 16px; /* Prevents iOS zoom */
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>R-Based Risk Calculator</h1>
-        <p>Calculate optimal position size based on your risk tolerance</p>
+        <div class="container">
+            <h1>R-Based Risk Calculator</h1>
+            <p>Calculate optimal position size based on your risk tolerance</p>
+        </div>
     </header>
     
-    <main>
+    <main class="container">
         <div class="card">
             <div class="tabs">
                 <div class="tab active" data-tab="calculator">Calculator</div>
@@ -423,28 +402,28 @@
                     <h3>Risk Analysis</h3>
                     
                     <div class="result-line">
-                        <span>Risk Unit (R):</span>
-                        <span id="riskUnitResult">$1,000</span>
+                        <span class="result-label">Risk Unit (R):</span>
+                        <span class="result-value" id="riskUnitResult">$1,000</span>
                     </div>
                     
                     <div class="result-line">
-                        <span>Stop Value:</span>
-                        <span id="stopValueResult">$0.36</span>
+                        <span class="result-label">Stop Value:</span>
+                        <span class="result-value" id="stopValueResult">$0.36</span>
                     </div>
                     
                     <div class="result-line">
-                        <span>Share Size:</span>
-                        <span id="shareSizeResult">2,777 shares</span>
+                        <span class="result-label">Share Size:</span>
+                        <span class="result-value" id="shareSizeResult">2,777 shares</span>
                     </div>
                     
                     <div class="result-line">
-                        <span>Total Position Value:</span>
-                        <span id="positionValueResult">$219,000</span>
+                        <span class="result-label">Total Position Value:</span>
+                        <span class="result-value" id="positionValueResult">$219,000</span>
                     </div>
                     
                     <div class="result-line" id="profitLine">
-                        <span>Potential Profit:</span>
-                        <span id="profitResult">$1,388 (1.39R)</span>
+                        <span class="result-label">Potential Profit:</span>
+                        <span class="result-value" id="profitResult">$1,388 (1.39R)</span>
                     </div>
                 </div>
             </div>
@@ -454,12 +433,11 @@
                 
                 <div class="info-section">
                     <p>The R-based approach to trading focuses on risk management. Instead of thinking about returns in dollars or percentages, trades are measured in terms of "R units".</p>
-                    <br>
                     <p>An R unit represents your predefined risk per trade, typically 0.5-2% of your total account.</p>
                 </div>
                 
                 <h3>How It Works:</h3>
-                <ol style="padding-left: 1.5rem; margin: 1rem 0;">
+                <ol>
                     <li><strong>Define your R unit</strong> - Usually 0.5-2% of your account (e.g., $1,000 on a $100,000 account)</li>
                     <li><strong>Calculate your stop value</strong> - The difference between entry and stop loss prices</li>
                     <li><strong>Determine position size</strong> - R unit divided by stop value gives you the number of shares</li>
@@ -477,9 +455,9 @@
             <div id="install" class="tab-content">
                 <h2>Install as App</h2>
                 
-                <div class="install-instructions">
+                <div class="info-section">
                     <h3>For iPhone/iPad:</h3>
-                    <ol style="padding-left: 1.5rem; margin: 1rem 0;">
+                    <ol>
                         <li>Open this page in Safari</li>
                         <li>Tap the Share button (square with arrow)</li>
                         <li>Scroll down and select "Add to Home Screen"</li>
@@ -487,7 +465,7 @@
                     </ol>
                     
                     <h3>For Android:</h3>
-                    <ol style="padding-left: 1.5rem; margin: 1rem 0;">
+                    <ol>
                         <li>Open this page in Chrome</li>
                         <li>Tap the three dots menu (⋮)</li>
                         <li>Select "Add to Home screen"</li>
@@ -497,14 +475,16 @@
                 
                 <p>Once installed, the app will appear on your home screen for easy access!</p>
                 
-                <h3 style="margin-top: 1.5rem;">Share This Calculator</h3>
+                <h3>Share This Calculator</h3>
                 <p>Copy and share the URL of this page with others who might find it useful.</p>
             </div>
         </div>
     </main>
     
     <footer>
-        R-Based Risk Calculator &copy; 2025 | Based on Jeremy Newsome's trading approach
+        <div class="container">
+            R-Based Risk Calculator &copy; 2025 | Based on Jeremy Newsome's trading approach
+        </div>
     </footer>
     
     <script>
@@ -694,7 +674,7 @@
                 if (savedData) {
                     const formData = JSON.parse(savedData);
                     
-                    // Fill form fields
+                    // Fill form fields safely
                     if (formData.accountSize) document.getElementById('accountSize').value = formData.accountSize;
                     if (formData.riskPercentage) document.getElementById('riskPercentage').value = formData.riskPercentage;
                     if (formData.optionTrading) document.getElementById('optionTrading').value = formData.optionTrading;
